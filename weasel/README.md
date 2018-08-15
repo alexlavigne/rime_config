@@ -46,8 +46,8 @@ rime 输入法的配置文件都在所谓的用户文件夹中，在前述输入
 有一个注意点：区分空格和tab键的，缩进一定要用两个空格作为一层。  
 还有一个规范：rime配置文件建议不要直接在原有的文件上修改。
 
-    比如原有一个 `$RIME_CONFIG/build/default.yaml` 配置文件，当你要在此文件的基础上修改时，应该新建形如 `xxx.custom.yaml`的文件，用patch格式修改，对于此文件，则应修改
-    `$RIME_CONFIG/default.custom.yaml`文件
+比如原有一个 `$RIME_CONFIG/build/default.yaml` 配置文件，当你要在此文件的基础上修改时，应该新建形如 `xxx.custom.yaml`的文件，用patch格式修改，对于此文件，则应修改
+`$RIME_CONFIG/default.custom.yaml`文件
 
 
 #### 以下是具体一些功能的配置说明
@@ -57,9 +57,11 @@ rime 输入法的配置文件都在所谓的用户文件夹中，在前述输入
 ***1  最靠左的元素在真实的yaml文件中就是顶格的，也就是它的左边没有空格***  
 ***2  `...`代表零行或多行其它与主题无明显相关的配置项***  
 
+---
+
 - 控制方案选单中的可选项及顺序
 
-方案选单里有多个方案时，通过`schema_list`控制，例如此处，想让五笔成为默认输入方案，就在 `$RIME_CONFIG/default.custom.yaml`文件中加上以下格式的内容：
+方案选单里有多个方案时，通过`$RIME_CONFIG/build/default.yaml`中的`schema_list`项控制，例如此处，想让五笔成为默认输入方案，就在 `$RIME_CONFIG/default.custom.yaml`文件中加上以下格式的内容：
 ```sh
 patch:
     ...
@@ -69,6 +71,37 @@ patch:
     ...
 ```
 
+---
+
+- 修改方案切换快捷键
+
+此功能由`$RIME_CONFIG/build/default.yaml`中的`switcher.hotkeys`项控制,原来绑定了三个快捷键：
+
+```sh
+switcher:
+  ...
+  hotkeys:
+    - "Control+grave"
+    - "Control+Shift+grave"
+    - F4
+  ...
+```
+其中，grave指键盘上数字1左边的那个键的符号  ` 
+。现在需要只保留"Control+grave"这一个快捷键，其它两个由系统或其它程序去处理，网上说法是在`$RIME_CONFIG/default.custom.yaml`文件中加上以下格式的内容：
+```sh
+patch:
+  switcher:
+    hotkeys:
+      - Control+grave
+```
+然而实测没有作用，其中Control+grave有无双引号都没有变化。目前是直接在`$RIME_CONFIG/build/default.yaml`中修改实现这个要求，修改后如下：
 
 
+```sh
+switcher:
+  ...
+  hotkeys:
+    - "Control+grave"
+  ...
+```
 
