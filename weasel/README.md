@@ -75,6 +75,7 @@ patch:
 
 - 修改方案切换快捷键
 
+输入法的快捷键可能影响其它软件（如idea）的使用。  
 此功能由`$RIME_CONFIG/build/default.yaml`中的`switcher.hotkeys`项控制,原来绑定了三个快捷键：
 
 ```sh
@@ -103,5 +104,34 @@ switcher:
   hotkeys:
     - "Control+grave"
   ...
+```
+
+---
+
+- 修改输入法默认为英文输入
+
+默认中英文切换不是全局的，当选择了五笔输入法作为默认输入法后，每打开一个程序，默认都是中文输入法，很多情况下得按一下shift键切换成英文，所以需要让输入法默认为英文输入。
+
+此功能由`$RIME_CONFIG/wubi86.schema.yaml`中的`switches.reset`项控制,原来指定默认中文输入：
+
+```sh
+switches:
+  - name: ascii_mode
+    reset: 0
+    states: [ 中文, 西文 ]
+```
+按网上说法是在`$RIME_CONFIG/wubi86.schema.custom.yaml`文件中加上以下格式的内容：
+```sh
+patch:
+  "switches/@0/reset":1
+```
+然而实测没有作用，其中Control+grave有无双引号都没有变化。目前是直接在`$RIME_CONFIG/wubi86.schema.yaml`中修改实现这个要求，修改后如下：
+
+
+```sh
+switches:
+  - name: ascii_mode
+    reset: 1
+    states: [ 中文, 西文 ]
 ```
 
